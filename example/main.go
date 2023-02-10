@@ -58,11 +58,14 @@ func main() {
 		if err != nil {
 			return
 		}
-		fmt.Println(username, "is", userResp.User.TheirName, "created on", userResp.User.CreatedAt.Format("2006-01-02"))
+		if user, ok := userResp.User.Unpack(); ok {
+			fmt.Println(username, "is", user.TheirName, "created on", user.CreatedAt.Format("2006-01-02"))
+		}
 
 	default:
 		err = fmt.Errorf("usage: %v [username]", os.Args[0])
 	}
+
 }
 
 //go:generate go run github.com/Khan/genqlient genqlient.yaml
